@@ -1,0 +1,42 @@
+version: '3'
+services:
+  flask:
+    build: ./flask_docker
+    ports:
+      - "6007:6007"
+    links:
+      - kafka
+      - mongo
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: "wurstmeister/kafka:0.10.2.0"
+    ports:
+     - "9092:9092"
+    hostname: kafka
+    links:
+     - zookeeper
+    environment:
+     - KAFKA_ADVERTISED_HOST_NAME=kafka
+     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+     - KAFKA_ADVERTISED_PORT=9092
+  spark:
+    image: "jupyter/pyspark-notebook:latest"
+    command: bash -c "pip3 install findspark && start-notebook.sh"
+    volumes:
+     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/spark:/home/bdp/work
+     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/data:/home/bdp/work/data
+    ports:
+     - "8888:8888"
+    links:
+     - kafka
+     - mongo
+  mongo:
+    image: mongo:4.0.4
+    container_name: Mongo
+    ports:
+     - "27017:27017"
+
+
