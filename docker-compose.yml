@@ -26,8 +26,8 @@ services:
     image: "jupyter/pyspark-notebook:latest"
     command: bash -c "pip3 install findspark && start-notebook.sh"
     volumes:
-     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/spark:/home/bdp/work
-     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/data:/home/bdp/work/data
+     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/spark:/home/jovyan/work
+     - /home/sammu/repos/ms/BDA/lamba_architecture_implementation/BigDataProject/data:/home/jovyan/work/data
     ports:
      - "8888:8888"
     links:
